@@ -5,7 +5,11 @@ class MessageBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textController = TextEditingController();
+    final focusNode = FocusNode();
+    // Theme Controller
     final themeColors = Theme.of(context).colorScheme;
+    // Screen Size
     final screenSize = MediaQuery.of(context).size;
     // Text Input field decoration
     var InputBorder = UnderlineInputBorder(
@@ -18,17 +22,27 @@ class MessageBox extends StatelessWidget {
         width: screenSize.width * 0.95,
         height: 50,
         child: TextFormField(
+          focusNode: focusNode,
+          onTapOutside: (event) => focusNode.unfocus(),
+          controller: textController,
           decoration: InputDecoration(
+            hintText: 'End your message with?',
             enabledBorder: InputBorder,
             focusedBorder: InputBorder,
             filled: true,
             suffixIcon: IconButton(
               icon: const Icon(Icons.send, color: Colors.green),
-              onPressed: () {},
+              onPressed: () {
+                final textValue = textController.value.text;
+                print('Button: $textValue');
+                textController.clear();
+              },
             ),
           ),
-          onFieldSubmitted: (value) => print('Submit Value $value'),
-          onChanged: (value) => print("Changed $value"),
+          onFieldSubmitted: (value) {
+            print('Submit Value $value');
+            textController.clear();
+          },
         ),
       ),
     );
