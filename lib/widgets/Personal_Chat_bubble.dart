@@ -1,27 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:yesnoapp/domain/entities/message.dart';
 
 class PersonalChatBubble extends StatelessWidget {
-  const PersonalChatBubble({Key? key}) : super(key: key);
+  final Message message;
+  const PersonalChatBubble({Key? key, required this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _LeftBubble(),
+        _LeftBubble(message: message.text),
       ],
     );
   }
 }
 
 class _LeftBubble extends StatelessWidget {
+  final String message;
   const _LeftBubble({
     super.key,
+    required this.message,
   });
 
   @override
   Widget build(BuildContext context) {
-    final Colors = Theme.of(context).colorScheme;
+    final colors = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -41,12 +46,13 @@ class _LeftBubble extends StatelessWidget {
               right: 5,
             ),
             alignment: Alignment.topLeft,
-            child: Text(
-              'Hello World',
-            ),
+
             decoration: BoxDecoration(
-              color: Colors.primary.withOpacity(0.6),
+              color: colors.primary.withOpacity(0.6),
               borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              message,
             ),
           ),
         ),

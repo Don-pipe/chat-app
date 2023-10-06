@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class MessageBox extends StatelessWidget {
-  const MessageBox({Key? key}) : super(key: key);
+  final ValueChanged<String> onValue;
+  const MessageBox({
+    Key? key,
+    required this.onValue,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final textController = TextEditingController();
     final focusNode = FocusNode();
+
     // Theme Controller
     final themeColors = Theme.of(context).colorScheme;
     // Screen Size
@@ -34,14 +39,17 @@ class MessageBox extends StatelessWidget {
               icon: const Icon(Icons.send, color: Colors.green),
               onPressed: () {
                 final textValue = textController.value.text;
-                print('Button: $textValue');
                 textController.clear();
+                onValue(textValue);
               },
             ),
           ),
           onFieldSubmitted: (value) {
-            print('Submit Value $value');
+            final value = textController.value.text;
+            focusNode.requestFocus();
             textController.clear();
+            onValue(value);
+            print("$value");
           },
         ),
       ),
